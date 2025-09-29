@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ event.title }} - Real Estate Genie{% endblock %}
+
+{% block content %}
+<header class="hero-section text-center py-5">
+    <div class="container">
+        <h1 class="display-4 text-white mb-3">📈 {{ event.title }}</h1>
+        <p class="lead text-white-50">Exclusive Investment Event</p>
+    </div>
+</header>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                {% if event.image %}
+                <img src="{{ event.image.url }}" class="img-fluid rounded mb-4" alt="{{ event.title }}">
+                {% else %}
+                <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&h=400&fit=crop" class="img-fluid rounded mb-4" alt="{{ event.title }}">
+                {% endif %}
+                <h3>Event Overview</h3>
+                <p class="lead">{{ event.description }}</p>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Event Details</h5>
+                        <p><strong>Date:</strong> {{ event.date|date:"F d, Y" }}</p>
+                        <p><strong>Time:</strong> {{ event.date|time:"g:i A" }}</p>
+                        <p><strong>Location:</strong> {{ event.location }}</p>
+                        <p><strong>Organizer:</strong> {{ event.organizer }}</p>
+                        {% if event.registration_fee %}
+                        <p><strong>Fee:</strong> ${{ event.registration_fee|floatformat:2 }}</p>
+                        {% else %}
+                        <p><strong>Fee:</strong> Free</p>
+                        {% endif %}
+                        <a href="#" class="btn btn-primary btn-lg w-100">Register Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

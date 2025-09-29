@@ -1,0 +1,312 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Real Estate Investment Platform - Find Your Next Investment{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-professional">
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="hero-title text-white"><span class="emoji">🏢</span> Premium Real Estate Investment Platform</h1>
+            <p class="hero-subtitle text-white-50">
+                Exclusive access to institutional-grade investment opportunities with comprehensive market analysis and expert insights.
+            </p>
+            <div class="mt-4">
+                <span class="investment-badge">Trusted by 500+ Accredited Investors</span>
+            </div>
+            <div class="d-flex gap-3 justify-content-center flex-wrap">
+                <a href="{% url 'rent:rent_list' %}" class="btn btn-light btn-lg">
+                    <i class="fas fa-home me-2"></i>Browse Rent Properties
+                </a>
+                <a href="{% url 'sale:sale_list' %}" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-chart-line me-2"></i>View Sale Properties
+                </a>
+                <a href="{% url 'events:event_list' %}" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-calendar me-2"></i>Investment Events
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-item">
+                    <span class="stat-number">500+</span>
+                    <span class="stat-label">Properties Listed</span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-item">
+                    <span class="stat-number">12%</span>
+                    <span class="stat-label">Average ROI</span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-item">
+                    <span class="stat-number">$2.5M</span>
+                    <span class="stat-label">Total Investment Value</span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-item">
+                    <span class="stat-number">50+</span>
+                    <span class="stat-label">Investment Events</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Properties Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8">
+                <h2 class="mb-3">🏠 Featured Investment Properties</h2>
+                <p class="text-muted">Handpicked properties with excellent investment potential and strong rental yields.</p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a href="{% url 'rent:rent_list' %}" class="btn btn-outline-primary">View All Properties</a>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card property-card h-100">
+                    <div class="position-relative">
+                        <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&h=250&fit=crop" class="card-img-top" alt="Luxury Apartment">
+                        <span class="property-badge badge-featured">Featured</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Luxury Downtown Apartment</h5>
+                        <div class="property-info">
+                            <span class="property-price">$3,200/mo</span>
+                            <div class="property-details">
+                                <span class="property-detail">
+                                    <i class="fas fa-bed"></i> 2 BR
+                                </span>
+                                <span class="property-detail">
+                                    <i class="fas fa-bath"></i> 2 BA
+                                </span>
+                                <span class="property-detail">
+                                    <i class="fas fa-ruler-combined"></i> 1,200 sqft
+                                </span>
+                            </div>
+                        </div>
+                        <p class="card-text">Prime location with excellent rental potential and strong appreciation prospects.</p>
+                        <div class="investment-metrics">
+                            <div class="metric-item">
+                                <span class="metric-label">ROI</span>
+                                <span class="metric-value positive">8.5%</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Cap Rate</span>
+                                <span class="metric-value positive">6.2%</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Cash Flow</span>
+                                <span class="metric-value positive">$450/mo</span>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2 mt-3">
+                            <a href="#" class="btn btn-primary flex-fill">View Investment</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card property-card h-100">
+                    <div class="position-relative">
+                        <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=400&h=250&fit=crop" class="card-img-top" alt="Modern House">
+                        <span class="property-badge badge-available">Available</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Modern Family House</h5>
+                        <div class="property-info">
+                            <span class="property-price">$4,500/mo</span>
+                            <div class="property-details">
+                                <span class="property-detail">
+                                    <i class="fas fa-bed"></i> 3 BR
+                                </span>
+                                <span class="property-detail">
+                                    <i class="fas fa-bath"></i> 2 BA
+                                </span>
+                                <span class="property-detail">
+                                    <i class="fas fa-ruler-combined"></i> 1,800 sqft
+                                </span>
+                            </div>
+                        </div>
+                        <p class="card-text">Spacious family home in growing neighborhood with excellent schools nearby.</p>
+                        <div class="investment-metrics">
+                            <div class="metric-item">
+                                <span class="metric-label">ROI</span>
+                                <span class="metric-value positive">7.8%</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Cap Rate</span>
+                                <span class="metric-value positive">5.9%</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Cash Flow</span>
+                                <span class="metric-value positive">$380/mo</span>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2 mt-3">
+                            <a href="#" class="btn btn-primary flex-fill">View Investment</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card property-card h-100">
+                    <div class="position-relative">
+                        <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=250&fit=crop" class="card-img-top" alt="Luxury Condo">
+                        <span class="property-badge badge-featured">Featured</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Luxury Waterfront Condo</h5>
+                        <div class="property-info">
+                            <span class="property-price">$5,200/mo</span>
+                            <div class="property-details">
+                                <span class="property-detail">
+                                    <i class="fas fa-bed"></i> 2 BR
+                                </span>
+                                <span class="property-detail">
+                                    <i class="fas fa-bath"></i> 2 BA
+                                </span>
+                                <span class="property-detail">
+                                    <i class="fas fa-ruler-combined"></i> 1,500 sqft
+                                </span>
+                            </div>
+                        </div>
+                        <p class="card-text">Premium waterfront location with stunning views and high-end amenities.</p>
+                        <div class="investment-metrics">
+                            <div class="metric-item">
+                                <span class="metric-label">ROI</span>
+                                <span class="metric-value positive">9.2%</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Cap Rate</span>
+                                <span class="metric-value positive">6.8%</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Cash Flow</span>
+                                <span class="metric-value positive">$520/mo</span>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2 mt-3">
+                            <a href="#" class="btn btn-primary flex-fill">View Investment</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Investment Events Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8">
+                <h2 class="mb-3">📅 Upcoming Investment Events</h2>
+                <p class="text-muted">Join our exclusive investment seminars, property tours, and networking events.</p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a href="{% url 'events:event_list' %}" class="btn btn-outline-primary">View All Events</a>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card event-card h-100">
+                    <div class="position-relative">
+                        <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=400&h=250&fit=crop" class="card-img-top" alt="Investment Seminar">
+                        <div class="event-date">Dec 15</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <span class="event-type">Investment Seminar</span>
+                            <span class="text-success fw-bold">Free</span>
+                        </div>
+                        <h5 class="card-title">Real Estate Investment Strategies 2024</h5>
+                        <p class="card-text">Learn advanced investment strategies from industry experts and discover new opportunities.</p>
+                        <div class="investment-focus">
+                            <h6>Investment Focus:</h6>
+                            <p class="mb-0">Rental properties, market analysis, and portfolio diversification</p>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <small class="text-muted">
+                                <i class="fas fa-map-marker-alt me-1"></i> Financial District
+                            </small>
+                            <a href="#" class="btn btn-primary btn-sm">Register</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card event-card h-100">
+                    <div class="position-relative">
+                        <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=250&fit=crop" class="card-img-top" alt="Property Tour">
+                        <div class="event-date">Dec 20</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <span class="event-type">Property Tour</span>
+                            <span class="text-warning fw-bold">$50</span>
+                        </div>
+                        <h5 class="card-title">Exclusive Property Investment Tour</h5>
+                        <p class="card-text">Join us for an exclusive tour of premium investment properties with detailed analysis.</p>
+                        <div class="investment-focus">
+                            <h6>Investment Focus:</h6>
+                            <p class="mb-0">Luxury properties, market trends, and investment potential analysis</p>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <small class="text-muted">
+                                <i class="fas fa-map-marker-alt me-1"></i> Downtown Area
+                            </small>
+                            <a href="#" class="btn btn-primary btn-sm">Register</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card event-card h-100">
+                    <div class="position-relative">
+                        <img src="https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=400&h=250&fit=crop" class="card-img-top" alt="Networking Event">
+                        <div class="event-date">Dec 25</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <span class="event-type">Networking</span>
+                            <span class="text-success fw-bold">Free</span>
+                        </div>
+                        <h5 class="card-title">Investor Networking Mixer</h5>
+                        <p class="card-text">Connect with fellow investors, share experiences, and discover new investment opportunities.</p>
+                        <div class="investment-focus">
+                            <h6>Investment Focus:</h6>
+                            <p class="mb-0">Networking, partnerships, and collaborative investment opportunities</p>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <small class="text-muted">
+                                <i class="fas fa-map-marker-alt me-1"></i> Business Center
+                            </small>
+                            <a href="#" class="btn btn-primary btn-sm">Register</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

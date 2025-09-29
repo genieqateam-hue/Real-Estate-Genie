@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sale Properties - Real Estate Investment Platform{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Page Header -->
+    <div class="row mb-5">
+        <div class="col-lg-8">
+            <h1 class="mb-3">🏢 Properties for Sale</h1>
+            <p class="text-muted">Explore exclusive properties for sale with detailed investment projections and market insights.</p>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-section">
+        <form method="get" class="filter-form">
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label for="property_type">Property Type</label>
+                    <select name="property_type" id="property_type" class="form-select">
+                        <option value="">All Types</option>
+                        {% for value, label in property_types %}
+                            <option value="{{ value }}" {% if filters.property_type == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="city">City</label>
+                    <select name="city" id="city" class="form-select">
+                        <option value="">All Cities</option>
+                        {% for city in cities %}
+                            <option value="{{ city }}" {% if filters.city == city %}selected{% endif %}>{{ city }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="min_price">Min Price</label>
+                    <input type="number" name="min_price" id="min_price" class="form-control" placeholder="100000" value="{{ filters.min_price }}">
+                </div>
+                <div class="filter-group">
+                    <label for="max_price">Max Price</label>
+                    <input type="number" name="max_price" id="max_price" class="form-control" placeholder="1000000" value="{{ filters.max_price }}">
+                </div>
+                <div class="filter-group">
+                    <label for="bedrooms">Bedrooms</label>
+                    <select name="bedrooms" id="bedrooms" class="form-select">
+                        <option value="">Any</option>
+                        <option value="1" {% if filters.bedrooms == "1" %}selected{% endif %}>1+</option>
+                        <option value="2" {% if filters.bedrooms == "2" %}selected{% endif %}>2+</option>
+                        <option value="3" {% if filters.bedrooms == "3" %}selected{% endif %}>3+</option>
+                        <option value="4" {% if filters.bedrooms == "4" %}selected{% endif %}>4+</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search me-2"></i>Filter Properties
+                    </button>
+                    <a href="{% url 'sale:sale_list' %}" class="btn btn-outline-secondary ms-2">Clear Filters</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Properties Grid -->
+    {% if properties %}
+        <div class="row">
+            {% for property in properties %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card property-card h-100">
+                        <div class="position-relative">
+                            {% if property.image %}
+                                <img src="{{ property.image.url }}" class="card-img-top" alt="{{ property.title }}">
+                            {% else %}
+                                <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&h=250&fit=crop" class="card-img-top" alt="{{ property.title }}">
+                            {% endif %}
+                            {% if property.is_featured %}
+                                <span class="property-badge badge-featured">Featured</span>
+                            {% endif %}
+                            {% if property.is_sold %}
+                                <span class="property-badge badge-sold">Sold</span>
+                            {% else %}
+                                <span class="property-badge badge-available">Available</span>
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ property.title }}</h5>
+                            <div class="property-info">
+                                <span class="property-price">${{ property.price|floatformat:0 }}</span>
+                                <div class="property-details">
+                                    {% if property.bedrooms %}
+                                    <span class="property-detail">
+                                        <i class="fas fa-bed"></i> {{ property.bedrooms }} BR
+                                    </span>
+                                    {% endif %}
+                                    {% if property.bathrooms %}
+                                    <span class="property-detail">
+                                        <i class="fas fa-bath"></i> {{ property.bathrooms }} BA
+                                    </span>
+                                    {% endif %}
+                                    {% if property.square_feet %}
+                                    <span class="property-detail">
+                                        <i class="fas fa-ruler-combined"></i> {{ property.square_feet|floatformat:0 }} sqft
+                                    </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <p class="card-text">{{ property.description|truncatewords:20 }}</p>
+                            <div class="investment-metrics">
+                                <div class="metric-item">
+                                    <span class="metric-label">Price/Sqft</span>
+                                    <span class="metric-value positive">${{ property.price_per_sqft|floatformat:0 }}</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Appreciation</span>
+                                    <span class="metric-value positive">{{ property.appreciation_rate }}%</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Potential</span>
+                                    <span class="metric-value positive">{{ property.get_investment_potential_display }}</span>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-2 mt-3">
+                                <a href="{% url 'sale:sale_detail' property.slug %}" class="btn btn-primary flex-fill">View Investment</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if properties.has_other_pages %}
+            <nav aria-label="Properties pagination">
+                <ul class="pagination">
+                    {% if properties.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1{% if request.GET.property_type %}&property_type={{ request.GET.property_type }}{% endif %}{% if request.GET.city %}&city={{ request.GET.city }}{% endif %}{% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}{% if request.GET.bedrooms %}&bedrooms={{ request.GET.bedrooms }}{% endif %}">First</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ properties.previous_page_number }}{% if request.GET.property_type %}&property_type={{ request.GET.property_type }}{% endif %}{% if request.GET.city %}&city={{ request.GET.city }}{% endif %}{% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}{% if request.GET.bedrooms %}&bedrooms={{ request.GET.bedrooms }}{% endif %}">Previous</a>
+                        </li>
+                    {% endif %}
+
+                    {% for num in properties.paginator.page_range %}
+                        {% if properties.number == num %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ num }}</span>
+                            </li>
+                        {% elif num > properties.number|add:'-3' and num < properties.number|add:'3' %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ num }}{% if request.GET.property_type %}&property_type={{ request.GET.property_type }}{% endif %}{% if request.GET.city %}&city={{ request.GET.city }}{% endif %}{% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}{% if request.GET.bedrooms %}&bedrooms={{ request.GET.bedrooms }}{% endif %}">{{ num }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if properties.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ properties.next_page_number }}{% if request.GET.property_type %}&property_type={{ request.GET.property_type }}{% endif %}{% if request.GET.city %}&city={{ request.GET.city }}{% endif %}{% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}{% if request.GET.bedrooms %}&bedrooms={{ request.GET.bedrooms }}{% endif %}">Next</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ properties.paginator.num_pages }}{% if request.GET.property_type %}&property_type={{ request.GET.property_type }}{% endif %}{% if request.GET.city %}&city={{ request.GET.city }}{% endif %}{% if request.GET.min_price %}&min_price={{ request.GET.min_price }}{% endif %}{% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}{% if request.GET.bedrooms %}&bedrooms={{ request.GET.bedrooms }}{% endif %}">Last</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
+    {% else %}
+        <div class="text-center py-5">
+            <div class="mb-4">
+                <i class="fas fa-search fa-3x text-muted"></i>
+            </div>
+            <h3>No properties found</h3>
+            <p class="text-muted">Try adjusting your search criteria or browse all properties.</p>
+            <a href="{% url 'sale:sale_list' %}" class="btn btn-primary">View All Properties</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

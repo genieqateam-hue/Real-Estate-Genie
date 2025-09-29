@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Blog - Real Estate Genie{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="text-center mb-4">Real Estate Blog</h1>
+            <p class="text-center text-muted">Insights, tips, and market updates from our experts</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Blog Posts -->
+        <div class="col-lg-8">
+            <div class="row">
+                {% for post in posts %}
+                <div class="col-md-6 mb-4">
+                    <div class="card blog-card h-100">
+                        {% if post.featured_image %}
+                            <img src="{{ post.featured_image.url }}" class="card-img-top" alt="{{ post.title }}">
+                        {% else %}
+                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <i class="fas fa-newspaper fa-3x text-muted"></i>
+                            </div>
+                        {% endif %}
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <span class="badge bg-primary">{{ post.category.name }}</span>
+                                <small class="text-muted">{{ post.published_at|date:"M d, Y" }}</small>
+                            </div>
+                            <h5 class="card-title">{{ post.title }}</h5>
+                            <p class="blog-meta">
+                                <i class="fas fa-user me-1"></i>{{ post.author.get_full_name }}
+                                <span class="ms-3"><i class="fas fa-eye me-1"></i>{{ post.views }} views</span>
+                            </p>
+                            <p class="card-text">{{ post.excerpt|default:post.content|truncatewords:20 }}</p>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <a href="{% url 'blog:post_detail' post.slug %}" class="btn btn-outline-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <div class="text-center py-5">
+                        <i class="fas fa-newspaper fa-3x text-muted mb-3"></i>
+                        <h3>No blog posts found</h3>
+                        <p class="text-muted">Check back soon for new content</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            {% if posts.has_other_pages %}
+            <nav aria-label="Blog pagination">
+                <ul class="pagination justify-content-center">
+                    {% if posts.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ posts.previous_page_number }}">Previous</a>
+                        </li>
+                    {% endif %}
+                    
+                    <li class="page-item active">
+                        <span class="page-link">Page {{ posts.number }} of {{ posts.paginator.num_pages }}</span>
+                    </li>
+                    
+                    {% if posts.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ posts.next_page_number }}">Next</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Categories -->
+            {% if categories %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Categories</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        {% for category in categories %}
+                        <li class="mb-2">
+                            <a href="{% url 'category_posts' category.slug %}" class="text-decoration-none">
+                                {{ category.name }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Tags -->
+            {% if tags %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Tags</h5>
+                </div>
+                <div class="card-body">
+                    {% for tag in tags %}
+                    <a href="{% url 'tag_posts' tag.slug %}" class="badge bg-light text-dark text-decoration-none me-1 mb-1">{{ tag.name }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Newsletter Signup -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Stay Updated</h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">Subscribe to our newsletter for the latest real estate insights.</p>
+                    <form method="post" action="{% url 'contact:newsletter_subscribe' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

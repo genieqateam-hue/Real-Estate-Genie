@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Careers - Real Estate Genie{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="text-center mb-4 animate-on-scroll">💼 Join Our Team 🏆</h1>
+            <p class="text-center text-muted animate-on-scroll">🤝 Explore exciting career opportunities in real estate 💰</p>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <form method="get" class="row g-3">
+                        <div class="col-md-3">
+                            <label for="category" class="form-label">Category</label>
+                            <select name="category" id="category" class="form-select">
+                                <option value="">All Categories</option>
+                                {% for category in categories %}
+                                    <option value="{{ category.name }}" {% if filters.category == category.name %}selected{% endif %}>{{ category.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="employment_type" class="form-label">Employment Type</label>
+                            <select name="employment_type" id="employment_type" class="form-select">
+                                <option value="">All Types</option>
+                                {% for value, label in employment_types %}
+                                    <option value="{{ value }}" {% if filters.employment_type == value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="location" class="form-label">Location</label>
+                            <input type="text" name="location" id="location" class="form-control" value="{{ filters.location }}" placeholder="City, State">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="search" class="form-label">Search</label>
+                            <input type="text" name="search" id="search" class="form-control" value="{{ filters.search }}" placeholder="Job title, keywords...">
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">🔍 Filter Jobs</button>
+                            <a href="{% url 'careers:job_list' %}" class="btn btn-outline-secondary">🔄 Clear Filters</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for job in jobs %}
+        <div class="col-lg-6 col-md-6 mb-4 animate-on-scroll">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <h5 class="card-title">{{ job.title }}</h5>
+                        <span class="badge bg-primary">{{ job.get_employment_type_display }}</span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <p class="text-muted mb-1">
+                            🏢 {{ job.category.name }} • 📍 {{ job.location }}
+                        </p>
+                        <p class="text-muted mb-1">
+                            💼 {{ job.get_experience_level_display }} • 
+                            {% if job.is_remote %}🏠 Remote{% else %}🏢 On-site{% endif %}
+                        </p>
+                        {% if job.salary_min and job.salary_max %}
+                            <p class="text-success fw-bold mb-1">
+                                💰 ${{ job.salary_min|floatformat:0 }} - ${{ job.salary_max|floatformat:0 }}
+                            </p>
+                        {% endif %}
+                    </div>
+                    
+                    <p class="card-text">{{ job.description|truncatewords:25 }}</p>
+                    
+                    <div class="d-flex justify-content-between align-items-center">
+                        <small class="text-muted">
+                            📅 Posted {{ job.created_at|date:"M d, Y" }}
+                        </small>
+                        <a href="{% url 'careers:job_detail' job.pk %}" class="btn btn-outline-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="text-center py-5">
+                <div style="font-size: 4rem; margin-bottom: 1rem;">💼</div>
+                <h3>No job openings found</h3>
+                <p class="text-muted">Check back soon for new opportunities</p>
+                <a href="{% url 'contact:contact' %}" class="btn btn-primary">📞 Contact Us</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if jobs.has_other_pages %}
+    <nav aria-label="Jobs pagination">
+        <ul class="pagination justify-content-center">
+            {% if jobs.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ jobs.previous_page_number }}">Previous</a>
+                </li>
+            {% endif %}
+            
+            <li class="page-item active">
+                <span class="page-link">Page {{ jobs.number }} of {{ jobs.paginator.num_pages }}</span>
+            </li>
+            
+            {% if jobs.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ jobs.next_page_number }}">Next</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}

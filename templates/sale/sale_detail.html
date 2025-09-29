@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ sale.title }} - Sale Property{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <h1 class="mb-3">{{ sale.title }}</h1>
+            <p class="text-muted mb-4">{{ sale.address }}, {{ sale.city }}, {{ sale.state }} {{ sale.zip_code }}</p>
+
+            {% if sale.image %}
+                <img src="{{ sale.image.url }}" class="img-fluid rounded mb-4" alt="{{ sale.title }}">
+            {% else %}
+                <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=400&fit=crop" class="img-fluid rounded mb-4" alt="{{ sale.title }}">
+            {% endif %}
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4 class="card-title">Property Overview</h4>
+                    <p class="card-text">{{ sale.description }}</p>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li><strong>Property Type:</strong> {{ sale.get_property_type_display }}</li>
+                                <li><strong>Price:</strong> ${{ sale.price|floatformat:2 }}</li>
+                                <li><strong>Bedrooms:</strong> {{ sale.bedrooms }}</li>
+                                <li><strong>Bathrooms:</strong> {{ sale.bathrooms }}</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li><strong>Square Feet:</strong> {{ sale.square_feet }}</li>
+                                <li><strong>Lot Size:</strong> {{ sale.lot_size }} sqft</li>
+                                <li><strong>Status:</strong> {% if sale.is_sold %}Sold{% else %}For Sale{% endif %}</li>
+                                <li><strong>Featured:</strong> {% if sale.is_featured %}Yes{% else %}No{% endif %}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4 class="card-title">Investment Analysis</h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li><strong>Price per Sqft:</strong> ${{ sale.price_per_sqft|floatformat:2 }}</li>
+                                <li><strong>Appreciation Rate:</strong> {{ sale.appreciation_rate }}%</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li><strong>Market Value:</strong> ${{ sale.market_value|floatformat:2 }}</li>
+                                <li><strong>Investment Potential:</strong> {{ sale.get_investment_potential_display }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Contact Agent</h5>
+                    <form>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone</label>
+                            <input type="tel" class="form-control" id="phone">
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea class="form-control" id="message" rows="4">I am interested in {{ sale.title }}. Please contact me.</textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Send Inquiry</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

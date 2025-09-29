@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ rent.title }} - Real Estate Genie{% endblock %}
+
+{% block content %}
+<header class="hero-section text-center py-5">
+    <div class="container">
+        <h1 class="display-4 text-white mb-3">🏠 {{ rent.title }}</h1>
+        <p class="lead text-white-50">Premium Investment Opportunity</p>
+    </div>
+</header>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                {% if rent.image %}
+                <img src="{{ rent.image.url }}" class="img-fluid rounded mb-4" alt="{{ rent.title }}">
+                {% endif %}
+                <h3>Investment Overview</h3>
+                <p class="lead">{{ rent.description }}</p>
+                
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="metric-highlight">
+                            <h6>Monthly Rent</h6>
+                            <p class="metric-value">${{ rent.price|floatformat:2 }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="metric-highlight">
+                            <h6>Property Type</h6>
+                            <p class="metric-value">{{ rent.get_property_type_display }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Investment Details</h5>
+                        <p><strong>Price:</strong> ${{ rent.price|floatformat:2 }}/month</p>
+                        <p><strong>Location:</strong> {{ rent.location }}</p>
+                        <p><strong>Bedrooms:</strong> {{ rent.bedrooms }}</p>
+                        <p><strong>Bathrooms:</strong> {{ rent.bathrooms }}</p>
+                        <p><strong>Area:</strong> {{ rent.area_sqft }} sq ft</p>
+                        <p><strong>Available:</strong> 
+                            {% if rent.is_available %}
+                                <span class="status-active">Yes</span>
+                            {% else %}
+                                <span class="status-inactive">No</span>
+                            {% endif %}
+                        </p>
+                        <a href="#" class="btn btn-primary btn-lg w-100">Contact Investment Advisor</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

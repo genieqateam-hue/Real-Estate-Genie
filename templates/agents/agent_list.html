@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Our Agents - Real Estate Genie{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="text-center mb-4 animate-on-scroll">Our Expert Agents</h1>
+            <p class="text-center text-muted animate-on-scroll">Meet our experienced real estate professionals</p>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for agent in agents %}
+        <div class="col-lg-3 col-md-6 mb-4 animate-on-scroll">
+            <div class="card agent-card h-100">
+                {% if agent.profile_image %}
+                    <img src="{{ agent.profile_image.url }}" class="agent-avatar" alt="{{ agent.user.get_full_name }}">
+                {% else %}
+                    <div class="agent-avatar bg-light d-flex align-items-center justify-content-center">
+                        <i class="fas fa-user fa-2x text-muted"></i>
+                    </div>
+                {% endif %}
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ agent.user.get_full_name }}</h5>
+                    <p class="text-primary fw-bold">{{ agent.user.email }}</p>
+                    <p class="card-text">{{ agent.bio|truncatewords:15 }}</p>
+                    <div class="mb-3">
+                        <small class="text-muted">
+                            <i class="fas fa-award me-1"></i>{{ agent.years_experience }} years experience
+                        </small>
+                    </div>
+                    <a href="{% url 'agents:agent_detail' agent.pk %}" class="btn btn-outline-primary">View Profile</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="text-center py-5">
+                <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                <h3>No agents found</h3>
+                <p class="text-muted">Check back soon for our team updates</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if agents.has_other_pages %}
+    <nav aria-label="Agents pagination">
+        <ul class="pagination justify-content-center">
+            {% if agents.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ agents.previous_page_number }}">Previous</a>
+                </li>
+            {% endif %}
+            
+            <li class="page-item active">
+                <span class="page-link">Page {{ agents.number }} of {{ agents.paginator.num_pages }}</span>
+            </li>
+            
+            {% if agents.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ agents.next_page_number }}">Next</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}
