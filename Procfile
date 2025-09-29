@@ -1,1 +1,1 @@
-web: gunicorn real_estate_genie.wsgi:application
+web: gunicorn RealEstateGenie.wsgi:application

@@ -6,7 +6,7 @@ services:
       pip install -r requirements.txt
       python manage.py migrate
       python manage.py collectstatic --noinput
-    startCommand: gunicorn real_estate_genie.wsgi:application
+    startCommand: gunicorn RealEstateGenie.wsgi:application
     envVars:
       - key: DJANGO_SETTINGS_MODULE
-        value: real_estate_genie.settings
+        value: RealEstateGenie.settings

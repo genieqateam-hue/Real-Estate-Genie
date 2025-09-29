@@ -54,7 +54,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'real_estate_genie.urls'
+ROOT_URLCONF = 'RealEstateGenie.urls'
 
 TEMPLATES = [
     {
@@ -73,7 +73,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'real_estate_genie.wsgi.application'
+WSGI_APPLICATION = 'RealEstateGenie.wsgi.application'
 
 
 # Database
